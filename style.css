@@ -11,12 +11,30 @@ body{
     align-items: center;
 }
 
+.to-do-app{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
 form{
     display: flex;
     flex-direction: column;
 }
 
+#task-form input{
+    background-color: transparent;
+    border: none;
+    outline: none;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #000; 
+    text-align: center;
+}
+
+
+
 .li-style{
-    color: red;
+    color: #000;
     list-style-type: none;
 }
