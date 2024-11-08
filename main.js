@@ -1,40 +1,49 @@
+    
+    if(localStorage.getItem('task') == null){
+        var taskArray = [];
 
+    }else{
+        taskArray = JSON.parse(localStorage.getItem('task'))
+    }
+    
+    
 
-if(localStorage.getItem('tasks') == null){
-    var taskArray = [];
-}else{
-    taskArray = JSON.parse(localStorage.getItem('tasks'))
-}
-
-    let myForm = document.querySelector('#task-form');
-    myForm.addEventListener('submit', function(event) {
-        
+    let toDoForm = document.querySelector('#task-form');
+    toDoForm.addEventListener('submit', function(event){
         event.preventDefault();
 
-        taskArray.push(event.target.elements.task.value);
-        taskArrayToLS = JSON.stringify(taskArray);
-        localStorage.setItem('tasks', taskArrayToLS);
+        let taskValue = event.target.elements.task.value.trim();
+        if(taskValue !== ''){
+            taskArray.push(taskValue);
 
-        event.target.elements.task.value = "";
+        let taskArrayToLS = JSON.stringify(taskArray);
+        localStorage.setItem('task', taskArrayToLS);
+    
+        event.target.elements.task.value = '';
 
-        let taskArrayFromLS = localStorage.getItem('tasks');
+        let taskArrayFromLS = localStorage.getItem('task');
         let taskArrayFromLSj = JSON.parse(taskArrayFromLS);
 
-        let paragraph = document.createElement('p')
-        paragraph.textContent = taskArrayFromLSj[taskArrayFromLSj.length - 1];
-        document.querySelector('.tasks').appendChild(paragraph);
-    
-    
-    })
-
-let presentTaskArray = localStorage.getItem('tasks');
-let presentTaskArrayj = JSON.parse(presentTaskArray);
+        
 
 
-if(presentTaskArrayj !== null){
-    presentTaskArrayj.forEach(function(oneTask){
         let paragraph = document.createElement('p');
-        paragraph.textContent = oneTask;
-        document.querySelector('.tasks').appendChild(paragraph);
-    })  
-}
+        paragraph.textContent = taskArrayFromLSj[taskArrayFromLSj.length - 1];
+
+        document.querySelector('.tasks').appendChild(paragraph); 
+        }
+})
+
+    let actualTaskArray = localStorage.getItem('task');
+    let actualTaskArrayJ = JSON.parse(actualTaskArray);
+
+    if(actualTaskArrayJ != null) {
+        actualTaskArrayJ.forEach(function(oneTask) {
+            let paragraph = document.createElement('p');
+            paragraph.textContent = oneTask
+            document.querySelector('.tasks').appendChild(paragraph);
+        })
+    }
+
+
+
