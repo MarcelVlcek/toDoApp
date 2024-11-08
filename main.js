@@ -1,49 +1,47 @@
+
+if (localStorage.getItem('task') == null) {
+    var taskArray = [];
+} else {
+    taskArray = JSON.parse(localStorage.getItem('task'));
+}
+
+
+function addTaskToDOM(taskText, index) {
+    let paragraph = document.createElement('p');
+    paragraph.textContent = taskText;
+
+    let deleteButton = document.createElement('button');
+    deleteButton.textContent = 'delete';
+
+    paragraph.appendChild(deleteButton);
+    document.querySelector('.tasks').appendChild(paragraph);
+
     
-    if(localStorage.getItem('task') == null){
-        var taskArray = [];
-
-    }else{
-        taskArray = JSON.parse(localStorage.getItem('task'))
-    }
-    
-    
-
-    let toDoForm = document.querySelector('#task-form');
-    toDoForm.addEventListener('submit', function(event){
-        event.preventDefault();
-
-        let taskValue = event.target.elements.task.value.trim();
-        if(taskValue !== ''){
-            taskArray.push(taskValue);
-
-        let taskArrayToLS = JSON.stringify(taskArray);
-        localStorage.setItem('task', taskArrayToLS);
-    
-        event.target.elements.task.value = '';
-
-        let taskArrayFromLS = localStorage.getItem('task');
-        let taskArrayFromLSj = JSON.parse(taskArrayFromLS);
+    deleteButton.addEventListener('click', function() {
+        paragraph.remove(); 
 
         
+        taskArray.splice(index, 1); 
+        localStorage.setItem('task', JSON.stringify(taskArray)); 
+    });
+}
 
 
-        let paragraph = document.createElement('p');
-        paragraph.textContent = taskArrayFromLSj[taskArrayFromLSj.length - 1];
+taskArray.forEach((task, index) => {
+    addTaskToDOM(task, index);
+});
 
-        document.querySelector('.tasks').appendChild(paragraph); 
-        }
-})
 
-    let actualTaskArray = localStorage.getItem('task');
-    let actualTaskArrayJ = JSON.parse(actualTaskArray);
+let toDoForm = document.querySelector('#task-form');
+toDoForm.addEventListener('submit', function(event) {
+    event.preventDefault();
 
-    if(actualTaskArrayJ != null) {
-        actualTaskArrayJ.forEach(function(oneTask) {
-            let paragraph = document.createElement('p');
-            paragraph.textContent = oneTask
-            document.querySelector('.tasks').appendChild(paragraph);
-        })
+    let taskValue = event.target.elements.task.value.trim();
+    if (taskValue !== '') {
+        taskArray.push(taskValue); 
+        localStorage.setItem('task', JSON.stringify(taskArray)); 
+
+        addTaskToDOM(taskValue, taskArray.length - 1); 
+        event.target.elements.task.value = ''; 
     }
-
-
-
+});
